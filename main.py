@@ -51,6 +51,7 @@ def main() -> None:
     target.write_text(LINE, encoding="utf-8")
     # The grader collects outputs as another user: leave the file readable.
     os.chmod(target, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+    assert stat.S_IMODE(target.stat().st_mode) == 0o644, "entry.txt mode is not 0644"
     # Read-back verification: confirm what landed on disk is exactly LINE.
     roundtrip = target.read_text(encoding="utf-8")
     assert roundtrip == LINE, "read-back content differs from LINE"
